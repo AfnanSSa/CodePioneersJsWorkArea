@@ -8,53 +8,66 @@
     <style>
       body {
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
         text-align: center;
+        background-color: #f8f9fa;
+        font-family: Helvetica, Arial, sans-serif;
       }
-      #initialSetCount {
-        position: absolute;
-        top: 20px;
-        left: 20px;
+      .input-group {
+        max-width: 400px;
+        margin-bottom: 20px;
       }
-      #setButton {
-        position: absolute;
-        top: 20px;
-        left: 200px;
+      .form-control,
+      .btn {
+        border-radius: 30px;
       }
       #myCounter {
-        color: orange;
+        color: #17a2b8;
+        font-size: 2em;
+      }
+      footer {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+        color: #17a2b8;
       }
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container text-center">
+      <div class="input-group mb-3 mx-auto">
+        <input id="initialSetCount" type="number" class="form-control" placeholder="Enter number of seconds">
+        <div class="input-group-append">
+          <button id="setButton" class="btn btn-primary" type="button">Set</button>
+        </div>
+      </div>
       <h1 class="mb-4">Remaining time for the current session</h1>
       <h2><span id="myCounter">0</span> Seconds</h2>
-
-      <input id="initialSetCount" class="form-control" type="number" placeholder="Enter number of seconds" />
-      <input id="setButton" class="btn btn-primary" type="button" value="Set" />
     </div>
+
+    <footer id="footerMessage"></footer>
 
     <script>
       const setButtonObj = document.getElementById("setButton");
-      setButtonObj.addEventListener("click", ()=>{
-        console.log("Button Clicked!!!");
-        initialSetCountObj = document.getElementById("initialSetCount");
-        console.log(initialSetCountObj.value);
-
+      setButtonObj.addEventListener("click", () => {
+        const initialSetCountObj = document.getElementById("initialSetCount");
         const countElem = document.getElementById("myCounter");
+        const footerElem = document.getElementById("footerMessage");
+
         let initialCountValue = Number(initialSetCountObj.value);
         countElem.innerText = initialCountValue;
 
-        const intervalObj = setInterval(()=>{
+        const intervalObj = setInterval(() => {
           if (initialCountValue > 0) {
             initialCountValue = initialCountValue - 1;
             countElem.innerText = initialCountValue;
           } else {
             clearInterval(intervalObj);
+            footerElem.innerText = "Session time is over";
           }
         }, 1000);
       });
